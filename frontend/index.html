@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Health Record Kerala – Your Health, Always Accessible</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:    #1A2B4C;
+      --navyd:   #0d1b35;
+      --navyl:   #243a63;
+      --teal:    #00ACC1;
+      --teall:   #26C6DA;
+      --coral:   #FF6B6B;
+      --g50:     #F5F7FA;
+      --g100:    #EEF1F6;
+      --g200:    #DDE3EE;
+      --g400:    #94A3B8;
+      --g600:    #64748B;
+      --g800:    #1E293B;
+      --white:   #FFFFFF;
+      --shadow:  0 4px 24px rgba(26,43,76,0.12);
+      --radius:  16px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--g50); color: var(--g800); line-height: 1.6; }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-thumb { background: var(--g200); border-radius: 4px; }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes float    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    @keyframes pulse    { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.5)} }
+    @keyframes fadeUp   { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes spin     { to{transform:rotate(360deg)} }
+    @keyframes slideIn  { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
+    .fade-up   { animation: fadeUp .5s ease both; }
+    .fade-up-2 { animation: fadeUp .5s .15s ease both; }
+    .fade-up-3 { animation: fadeUp .5s .3s ease both; }
+
+    /* ===== NAV ===== */
+    .nav {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(13,27,53,0.97); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0 32px; height: 66px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
+    .nav-logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg,#00ACC1,#0097A7); border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .nav-logo-text { color: #fff; font-weight: 800; font-size: 16px; letter-spacing: -0.3px; }
+    .nav-links { display: flex; align-items: center; gap: 2px; }
+    .nav-link { background: none; border: none; color: rgba(255,255,255,0.7); font-family: 'Inter',sans-serif; font-size: 13px; font-weight: 500; padding: 8px 14px; border-radius: 8px; cursor: pointer; transition: all .2s; }
+    .nav-link:hover, .nav-link.active { color: #fff; background: rgba(255,255,255,0.08); }
+    .nav-link.active { color: var(--teal); }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+    .btn-nav-outline { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #fff; font-family:'Inter',sans-serif; font-size: 13px; font-weight: 500; padding: 8px 18px; border-radius: 9px; cursor: pointer; transition: all .2s; }
+    .btn-nav-outline:hover { background: rgba(255,255,255,0.16); }
+    .btn-nav-primary { background: linear-gradient(135deg,var(--teal),#0097A7); border: none; color: #fff; font-family:'Inter',sans-serif; font-size: 13px; font-weight: 600; padding: 8px 20px; border-radius: 9px; cursor: pointer; box-shadow: 0 4px 14px rgba(0,172,193,0.4); transition: all .2s; }
+    .btn-nav-primary:hover { box-shadow: 0 6px 20px rgba(0,172,193,0.5); transform: translateY(-1px); }
+    .lang-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: #fff; font-family:'Inter',sans-serif; font-size: 11px; font-weight: 700; padding: 6px 11px; border-radius: 7px; cursor: pointer; letter-spacing: 0.5px; transition: all .2s; }
+    .lang-btn:hover { background: rgba(255,255,255,0.18); }
+
+    /* ===== PAGES ===== */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: calc(100vh - 66px);
+      background: linear-gradient(135deg, #0d1b35 0%, #1A2B4C 55%, #1a3a5c 100%);
+      display: flex; align-items: center; position: relative; overflow: hidden;
+    }
+    .hero-bg  { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 68% 50%, rgba(0,172,193,0.15) 0%, transparent 70%); }
+    .hero-grid{ position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px), linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 60px 60px; }
+    .hero-inner{ position: relative; max-width: 1100px; margin: 0 auto; padding: 80px 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; width: 100%; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,172,193,0.15); border: 1px solid rgba(0,172,193,0.3); color: #26C6DA; font-size: 11px; font-weight: 600; padding: 7px 16px; border-radius: 100px; margin-bottom: 24px; letter-spacing: 0.5px; }
+    .hero-badge-dot { width: 7px; height: 7px; background: var(--teal); border-radius: 50%; animation: pulse 2s infinite; display: inline-block; }
+    .hero-title { font-size: clamp(40px,5vw,68px); font-weight: 900; color: #fff; line-height: 1.08; letter-spacing: -2.5px; margin-bottom: 8px; }
+    .hero-title span { color: var(--teal); display: block; }
+    .hero-sub { font-size: clamp(22px,2.5vw,34px); font-weight: 300; color: rgba(255,255,255,0.55); letter-spacing: -0.5px; margin-bottom: 22px; }
+    .hero-desc { font-size: 16px; color: rgba(255,255,255,0.65); line-height: 1.75; margin-bottom: 36px; max-width: 460px; }
+    .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-hero-primary { background: linear-gradient(135deg,var(--teal),#0097A7); color: #fff; border: none; font-family:'Inter',sans-serif; font-weight: 700; font-size: 15px; padding: 15px 32px; border-radius: 12px; cursor: pointer; box-shadow: 0 8px 28px rgba(0,172,193,0.45); transition: all .3s; }
+    .btn-hero-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(0,172,193,0.55); }
+    .btn-hero-outline { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.2); font-family:'Inter',sans-serif; font-weight: 600; font-size: 15px; padding: 15px 32px; border-radius: 12px; cursor: pointer; transition: all .3s; }
+    .btn-hero-outline:hover { background: rgba(255,255,255,0.15); }
+
+    /* Health Card */
+    .health-card-demo { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.13); border-radius: 24px; padding: 28px; width: 315px; backdrop-filter: blur(20px); box-shadow: 0 24px 60px rgba(0,0,0,0.35); animation: float 6s ease-in-out infinite; }
+    .hcd-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .hcd-logo { color: var(--teal); font-weight: 700; font-size: 12px; }
+    .hcd-govt { color: rgba(255,255,255,0.35); font-size: 10px; text-align: right; line-height: 1.4; }
+    .hcd-avatar { width: 54px; height: 54px; border-radius: 50%; background: linear-gradient(135deg,var(--teal),#0097A7); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 10px; }
+    .hcd-name { color: #fff; font-weight: 700; font-size: 17px; margin-bottom: 4px; }
+    .hcd-id { color: var(--teal); font-family: monospace; font-size: 13px; font-weight: 600; margin-bottom: 18px; letter-spacing: 1px; }
+    .hcd-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+    .hcd-info-item label { color: rgba(255,255,255,0.35); font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .hcd-info-item span { color: rgba(255,255,255,0.9); font-size: 13px; font-weight: 600; display: block; }
+    .hcd-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+    .hcd-qr { background: #fff; border-radius: 10px; padding: 7px; }
+    .hcd-qr svg { display: block; }
+    .hcd-blood { background: rgba(255,107,107,0.15); border: 1px solid rgba(255,107,107,0.3); color: var(--coral); font-weight: 700; font-size: 18px; padding: 8px 16px; border-radius: 10px; }
+
+    /* ===== STATS ===== */
+    .stats { background: var(--navy); padding: 54px 32px; }
+    .stats-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+    .stat-item { text-align: center; }
+    .stat-num { font-size: 44px; font-weight: 900; color: var(--teal); letter-spacing: -2px; line-height: 1; }
+    .stat-lbl { color: rgba(255,255,255,0.5); font-size: 13px; margin-top: 6px; }
+
+    /* ===== SECTION COMMON ===== */
+    .section { padding: 90px 32px; }
+    .section-tag { display: inline-block; background: rgba(0,172,193,0.1); color: var(--teal); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 14px; }
+    .section-title { font-size: clamp(28px,4vw,44px); font-weight: 900; color: var(--navy); letter-spacing: -1.5px; line-height: 1.15; }
+    .section-desc { color: var(--g600); font-size: 16px; margin-top: 10px; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .section-header { text-align: center; margin-bottom: 56px; }
+
+    /* ===== FEATURES ===== */
+    .features { background: var(--g50); }
+    .features-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 22px; }
+    .feature-card { background: #fff; border-radius: var(--radius); padding: 30px 24px; box-shadow: 0 1px 4px rgba(26,43,76,0.08); border: 1px solid var(--g100); transition: all .3s; position: relative; overflow: hidden; }
+    .feature-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg,var(--teal),var(--teall)); transform: scaleX(0); transition: transform .3s; transform-origin: left; }
+    .feature-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+    .feature-card:hover::before { transform: scaleX(1); }
+    .feature-icon { width: 50px; height: 50px; background: rgba(0,172,193,0.1); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 18px; }
+    .feature-title { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 9px; }
+    .feature-desc { font-size: 13px; color: var(--g600); line-height: 1.65; }
+
+    /* ===== HOW IT WORKS ===== */
+    .hiw { background: #fff; }
+    .hiw-grid { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; }
+    .hiw-item { text-align: center; padding: 24px 20px; }
+    .hiw-icon { font-size: 44px; margin-bottom: 14px; }
+    .hiw-step { font-size: 11px; font-weight: 700; color: var(--teal); letter-spacing: 2px; margin-bottom: 10px; }
+    .hiw-title { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 9px; }
+    .hiw-desc { font-size: 14px; color: var(--g600); line-height: 1.7; }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section { background: linear-gradient(135deg, var(--navyd), var(--navy)); text-align: center; position: relative; overflow: hidden; }
+    .cta-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(0,172,193,0.12) 0%, transparent 70%); }
+    .cta-inner { position: relative; max-width: 560px; margin: 0 auto; }
+    .cta-title { font-size: clamp(28px,4vw,48px); font-weight: 900; color: #fff; letter-spacing: -1.5px; line-height: 1.15; margin-bottom: 14px; }
+    .cta-sub { color: rgba(255,255,255,0.6); font-size: 16px; margin-bottom: 32px; }
+    .cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    /* ===== FOOTER ===== */
+    footer { background: var(--navyd); color: rgba(255,255,255,0.6); padding: 52px 32px 28px; }
+    .footer-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-brand h3 { color: #fff; font-weight: 700; font-size: 17px; margin-bottom: 10px; }
+    .footer-brand p { font-size: 13px; line-height: 1.7; }
+    .footer-helpline { color: var(--teal); font-weight: 600; font-size: 13px; margin-top: 14px; }
+    .footer-col h4 { color: rgba(255,255,255,0.9); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
+    .footer-link { display: block; font-size: 13px; color: rgba(255,255,255,0.45); cursor: pointer; margin-bottom: 9px; transition: color .2s; background: none; border: none; font-family:'Inter',sans-serif; text-align: left; padding: 0; }
+    .footer-link:hover { color: var(--teal); }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 12px; }
+
+    /* ===== AUTH PAGES ===== */
+    .auth-page { min-height: calc(100vh - 66px); background: linear-gradient(135deg, var(--navyd), var(--navy)); display: flex; align-items: center; justify-content: center; padding: 40px 24px; }
+    .auth-card { background: #fff; border-radius: 22px; width: 100%; max-width: 460px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .auth-card-header { background: linear-gradient(135deg, var(--navyd), var(--navy)); padding: 28px 32px; }
+    .auth-card-header h2 { color: #fff; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 5px; }
+    .auth-card-header p { color: rgba(255,255,255,0.55); font-size: 13px; }
+    .auth-card-body { padding: 28px 32px; }
+    .auth-switch { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--g100); font-size: 12px; color: var(--g600); }
+    .auth-switch button { background: none; border: none; color: var(--teal); font-family:'Inter',sans-serif; font-weight: 600; font-size: 12px; cursor: pointer; }
+    .auth-back { background: none; border: none; color: var(--g400); font-family:'Inter',sans-serif; font-size: 12px; cursor: pointer; }
+    .auth-back:hover { color: var(--teal); }
+
+    /* ===== FORM ===== */
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--navy); margin-bottom: 6px; letter-spacing: 0.2px; }
+    .form-input { width: 100%; border: 1.5px solid var(--g200); border-radius: 10px; padding: 11px 14px; font-family:'Inter',sans-serif; font-size: 13px; color: var(--g800); background: var(--g50); outline: none; transition: all .2s; }
+    .form-input:focus { border-color: var(--teal); background: #fff; box-shadow: 0 0 0 3px rgba(0,172,193,0.1); }
+    .form-input::placeholder { color: var(--g400); }
+    .form-select { width: 100%; border: 1.5px solid var(--g200); border-radius: 10px; padding: 11px 14px; font-family:'Inter',sans-serif; font-size: 13px; color: var(--g800); background: var(--g50); outline: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; cursor: pointer; transition: all .2s; }
+    .form-select:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,172,193,0.1); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .otp-row { display: flex; gap: 9px; }
+    .otp-row .form-input { flex: 1; }
+    .otp-btn { background: var(--navy); color: #fff; border: none; font-family:'Inter',sans-serif; font-weight: 600; font-size: 11px; padding: 11px 14px; border-radius: 10px; cursor: pointer; white-space: nowrap; transition: all .2s; }
+    .otp-btn:hover { background: var(--navyl); }
+    .otp-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .checkbox-row { display: flex; align-items: flex-start; gap: 9px; margin-bottom: 16px; }
+    .checkbox-row input { margin-top: 3px; accent-color: var(--teal); }
+    .checkbox-row label { font-size: 12px; color: var(--g600); cursor: pointer; }
+    .btn-primary { width: 100%; background: linear-gradient(135deg, var(--teal), #0097A7); color: #fff; border: none; font-family:'Inter',sans-serif; font-weight: 700; font-size: 14px; padding: 14px; border-radius: 10px; cursor: pointer; box-shadow: 0 6px 20px rgba(0,172,193,0.35); transition: all .2s; margin-top: 6px; }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,172,193,0.45); }
+    .btn-sm { background: rgba(0,172,193,0.1); color: var(--teal); border: none; font-family:'Inter',sans-serif; font-weight: 600; font-size: 12px; padding: 7px 14px; border-radius: 7px; cursor: pointer; transition: all .2s; white-space: nowrap; }
+    .btn-sm:hover { background: rgba(0,172,193,0.2); }
+    .btn-outline { background: none; border: 1.5px solid var(--g200); color: var(--g600); font-family:'Inter',sans-serif; font-weight: 600; font-size: 13px; padding: 9px 18px; border-radius: 9px; cursor: pointer; transition: all .2s; }
+    .btn-save { background: linear-gradient(135deg,var(--teal),#0097A7); color: #fff; border: none; font-family:'Inter',sans-serif; font-weight: 600; font-size: 13px; padding: 9px 22px; border-radius: 9px; cursor: pointer; }
+
+    /* ===== ALERTS ===== */
+    .alert { padding: 11px 14px; border-radius: 9px; font-size: 12px; font-weight: 500; margin-bottom: 14px; }
+    .alert-success { background: rgba(0,172,193,0.1); border: 1px solid rgba(0,172,193,0.2); color: #007B8A; }
+    .alert-error   { background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.2); color: #C0392B; }
+
+    /* ===== LOADING SPINNER ===== */
+    .spinner { width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; vertical-align: middle; margin-right: 8px; }
+
+    /* ===== DASHBOARD ===== */
+    .dashboard-layout { display: flex; min-height: calc(100vh - 66px); }
+    .sidebar { width: 250px; background: #fff; border-right: 1px solid var(--g100); padding: 24px 14px; position: sticky; top: 66px; height: calc(100vh - 66px); overflow-y: auto; flex-shrink: 0; }
+    .sidebar-user { display: flex; align-items: center; gap: 10px; padding: 13px 14px; background: var(--g50); border-radius: 10px; margin-bottom: 20px; }
+    .sidebar-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg,var(--teal),#0097A7); display: flex; align-items: center; justify-content: center; font-size: 17px; color: #fff; font-weight: 700; flex-shrink: 0; }
+    .sidebar-name { font-weight: 700; font-size: 13px; color: var(--navy); }
+    .sidebar-hid { font-size: 10px; color: var(--teal); font-family: monospace; font-weight: 600; }
+    .sidebar-menu { display: flex; flex-direction: column; gap: 2px; }
+    .sidebar-item { display: flex; align-items: center; gap: 9px; padding: 10px 13px; border-radius: 9px; border: none; background: none; font-family:'Inter',sans-serif; font-size: 13px; font-weight: 500; color: var(--g600); cursor: pointer; transition: all .2s; width: 100%; text-align: left; }
+    .sidebar-item:hover { background: var(--g50); color: var(--navy); }
+    .sidebar-item.active { background: rgba(0,172,193,0.1); color: var(--teal); font-weight: 600; }
+    .sidebar-item.danger { color: var(--coral); }
+    .sidebar-item.danger:hover { background: rgba(255,107,107,0.08); }
+    .dash-content { flex: 1; padding: 32px; min-width: 0; }
+
+    /* Dashboard cards */
+    .dash-greeting h1 { font-size: 26px; font-weight: 900; color: var(--navy); letter-spacing: -0.5px; }
+    .dash-greeting p { color: var(--g600); font-size: 14px; margin-top: 4px; margin-bottom: 28px; }
+    .cards-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+    .hid-card { background: linear-gradient(135deg, var(--navyd), var(--navy), #1a3a5c); border-radius: var(--radius); padding: 24px; color: #fff; position: relative; overflow: hidden; }
+    .hid-card::after { content:''; position:absolute; top:-40px; right:-40px; width:160px; height:160px; background:rgba(0,172,193,0.1); border-radius:50%; }
+    .hid-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.45); margin-bottom: 6px; }
+    .hid-number { font-size: 20px; font-weight: 900; color: var(--teal); font-family: monospace; letter-spacing: 2px; margin-bottom: 14px; }
+    .hid-name { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+    .hid-meta { font-size: 11px; color: rgba(255,255,255,0.45); }
+    .hid-qr { position: absolute; right: 16px; bottom: 16px; background: #fff; border-radius: 8px; padding: 6px; }
+    .mini-card { background: #fff; border-radius: var(--radius); padding: 22px; border: 1px solid var(--g100); box-shadow: 0 1px 4px rgba(26,43,76,0.07); }
+    .mini-card-icon { width: 40px; height: 40px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 14px; }
+    .mini-card-value { font-size: 30px; font-weight: 900; color: var(--navy); letter-spacing: -1px; }
+    .mini-card-label { font-size: 12px; color: var(--g600); margin-top: 3px; }
+    .dash-section { margin-bottom: 26px; }
+    .dash-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .dash-section-head h2 { font-size: 17px; font-weight: 700; color: var(--navy); }
+
+    /* Records list */
+    .record-list { display: flex; flex-direction: column; gap: 9px; }
+    .record-item { background: #fff; border: 1px solid var(--g100); border-radius: 10px; padding: 13px 18px; display: flex; align-items: center; gap: 14px; transition: all .2s; cursor: pointer; }
+    .record-item:hover { border-color: var(--teal); box-shadow: 0 2px 12px rgba(0,172,193,0.1); }
+    .record-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+    .record-info { flex: 1; }
+    .record-title { font-weight: 600; font-size: 13px; color: var(--navy); }
+    .record-meta  { font-size: 11px; color: var(--g400); margin-top: 2px; }
+    .record-badge { background: rgba(0,172,193,0.1); color: var(--teal); font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 6px; white-space: nowrap; }
+
+    /* Vitals */
+    .vitals-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+    .vital-card { background: #fff; border: 1px solid var(--g100); border-radius: 10px; padding: 18px; text-align: center; }
+    .vital-emoji { font-size: 22px; margin-bottom: 7px; }
+    .vital-value { font-size: 20px; font-weight: 900; color: var(--navy); letter-spacing: -0.5px; }
+    .vital-unit  { font-size: 10px; color: var(--g400); font-weight: 500; }
+    .vital-label { font-size: 11px; color: var(--g600); margin-top: 3px; }
+    .vital-trend { font-size: 10px; color: var(--teal); margin-top: 5px; font-weight: 600; }
+
+    /* Modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 24px; backdrop-filter: blur(4px); }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 20px; width: 100%; max-width: 500px; max-height: 88vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: slideIn .3s ease; }
+    .modal-header { padding: 20px 26px; border-bottom: 1px solid var(--g100); display: flex; justify-content: space-between; align-items: center; }
+    .modal-header h3 { font-size: 17px; font-weight: 700; color: var(--navy); }
+    .modal-close { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--g400); }
+    .modal-body { padding: 26px; }
+    .modal-footer { padding: 18px 26px; border-top: 1px solid var(--g100); display: flex; justify-content: flex-end; gap: 9px; }
+
+    /* Upload area */
+    .upload-area { background: #fff; border: 2px dashed var(--g200); border-radius: var(--radius); padding: 40px; text-align: center; cursor: pointer; transition: all .2s; }
+    .upload-area:hover { border-color: var(--teal); background: rgba(0,172,193,0.02); }
+
+    /* Content pages */
+    .content-hero { background: linear-gradient(135deg,var(--navyd),var(--navy)); padding: 72px 32px; text-align: center; }
+    .content-hero h1 { font-size: clamp(28px,4vw,48px); font-weight: 900; color: #fff; letter-spacing: -1.5px; margin-bottom: 10px; }
+    .content-hero p { color: rgba(255,255,255,0.55); font-size: 16px; max-width: 520px; margin: 0 auto; }
+    .content-body { max-width: 860px; margin: 0 auto; padding: 56px 32px; }
+    .content-section { margin-bottom: 40px; }
+    .content-section h2 { font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid var(--g100); }
+    .content-section p { color: var(--g600); font-size: 15px; line-height: 1.8; margin-bottom: 10px; }
+    .faq-item { background: #fff; border: 1px solid var(--g100); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+    .faq-q { width: 100%; background: none; border: none; font-family:'Inter',sans-serif; font-size: 14px; font-weight: 600; color: var(--navy); padding: 18px 22px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-a { padding: 0 22px 18px; color: var(--g600); font-size: 13px; line-height: 1.7; display: none; }
+    .faq-a.open { display: block; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .contact-info-card { background: var(--navy); border-radius: var(--radius); padding: 36px; color: #fff; }
+    .contact-info-card h2 { font-size: 22px; font-weight: 700; margin-bottom: 22px; }
+    .contact-info-item { display: flex; gap: 13px; margin-bottom: 18px; }
+    .contact-info-icon { width: 38px; height: 38px; background: rgba(255,255,255,0.1); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+    .contact-info-text h4 { font-size: 11px; color: rgba(255,255,255,0.45); margin-bottom: 3px; }
+    .contact-info-text p { font-size: 14px; font-weight: 600; }
+    .contact-form-card { background: #fff; border-radius: var(--radius); padding: 36px; border: 1px solid var(--g100); }
+    .contact-form-card h2 { font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 22px; }
+    textarea.form-input { resize: vertical; }
+
+    /* Toast */
+    .toast { position: fixed; bottom: 28px; right: 28px; background: var(--navy); color: #fff; padding: 14px 20px; border-radius: 12px; font-size: 13px; font-weight: 500; box-shadow: 0 8px 28px rgba(0,0,0,0.25); z-index: 9999; display: none; animation: slideIn .3s ease; max-width: 320px; }
+    .toast.success { border-left: 4px solid var(--teal); }
+    .toast.error   { border-left: 4px solid var(--coral); }
+    .toast.show    { display: block; }
+
+    /* Success card */
+    .success-card { text-align: center; }
+    .success-card .big-icon { font-size: 64px; margin-bottom: 16px; }
+    .hid-display { background: var(--g50); border-radius: 14px; padding: 24px; margin-bottom: 20px; }
+    .hid-display-label { font-size: 11px; color: var(--g400); margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase; }
+    .hid-display-value { font-family: monospace; font-size: 28px; font-weight: 900; color: var(--navy); letter-spacing: 4px; margin-bottom: 16px; }
+    .qr-center { display: flex; justify-content: center; }
+    .qr-box { background: #fff; border-radius: 12px; padding: 10px; border: 1px solid var(--g200); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .features-grid { grid-template-columns: repeat(2,1fr); }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .cards-top { grid-template-columns: 1fr 1fr; }
+      .vitals-grid { grid-template-columns: repeat(2,1fr); }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px; }
+      .health-card-demo { display: none; }
+      .features-grid { grid-template-columns: 1fr; }
+      .hiw-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .dashboard-layout { flex-direction: column; }
+      .sidebar { width: 100%; position: static; height: auto; }
+      .sidebar-menu { flex-direction: row; flex-wrap: wrap; }
+      .cards-top { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .dash-content { padding: 20px 16px; }
+    }
+    @media (max-width: 480px) {
+      .vitals-grid { grid-template-columns: repeat(2,1fr); }
+      .nav { padding: 0 16px; }
+      .nav-logo-text { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"></div>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Modal</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <a class="nav-logo" onclick="showPage('home')" href="javascript:void(0)">
+    <div class="nav-logo-icon">🏥</div>
+    <span class="nav-logo-text">Health Record Kerala</span>
+  </a>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="showPage('home')">Home</button>
+    <button class="nav-link" onclick="showPage('about')">About</button>
+    <button class="nav-link" onclick="showPage('contact')">Contact</button>
+    <button class="nav-link" onclick="showPage('faq')">FAQ</button>
+  </div>
+  <div class="nav-actions">
+    <button class="lang-btn" id="lang-btn" onclick="cycleLang()">EN</button>
+    <div id="nav-guest">
+      <button class="btn-nav-outline" style="margin-right:6px" onclick="showPage('login')">Login</button>
+      <button class="btn-nav-primary" onclick="showPage('register')">Register</button>
+    </div>
+    <div id="nav-user" style="display:none;gap:10px;align-items:center;display:none">
+      <button class="btn-nav-outline" onclick="showPage('dashboard')">Dashboard</button>
+      <button class="btn-nav-primary" onclick="logout()" style="background:linear-gradient(135deg,#FF6B6B,#ee5a5a)">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================= HOME PAGE ============================= -->
+<div class="page active" id="page-home">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge fade-up"><span class="hero-badge-dot"></span> Government of Kerala Initiative</div>
+        <h1 class="hero-title fade-up-2">Digital Health<br><span>Records Kerala</span></h1>
+        <p class="hero-sub fade-up-2">for Every Keralite</p>
+        <p class="hero-desc fade-up-3">Secure, portable digital health records for every resident of Kerala. Access your complete medical history anytime, anywhere.</p>
+        <div class="hero-cta fade-up-3">
+          <button class="btn-hero-primary" onclick="showPage('register')">Get Started →</button>
+          <button class="btn-hero-outline" onclick="showPage('login')">🔑 Login</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center">
+        <div class="health-card-demo">
+          <div class="hcd-header">
+            <span class="hcd-logo">🏥 Health Record Kerala</span>
+            <div class="hcd-govt">Govt. of Kerala<br>Digital Health</div>
+          </div>
+          <div class="hcd-avatar">👤</div>
+          <div class="hcd-name">Arun Kumar P.</div>
+          <div class="hcd-id">KL24-847391</div>
+          <div class="hcd-info">
+            <div class="hcd-info-item"><label>DOB</label><span>14 Mar 1990</span></div>
+            <div class="hcd-info-item"><label>District</label><span>Ernakulam</span></div>
+            <div class="hcd-info-item"><label>Mobile</label><span>+91 98XXXXXX</span></div>
+            <div class="hcd-info-item"><label>Status</label><span style="color:var(--teal)">Active ✓</span></div>
+          </div>
+          <div class="hcd-footer">
+            <div class="hcd-qr" id="demo-qr"></div>
+            <div class="hcd-blood">O+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-num">3.5 Cr+</div><div class="stat-lbl">Registered Citizens</div></div>
+      <div class="stat-item"><div class="stat-num">14</div><div class="stat-lbl">Districts Covered</div></div>
+      <div class="stat-item"><div class="stat-num">500+</div><div class="stat-lbl">Partner Hospitals</div></div>
+      <div class="stat-item"><div class="stat-num">99.9%</div><div class="stat-lbl">Uptime Guarantee</div></div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="section features">
+    <div class="section-header">
+      <div class="section-tag">Features</div>
+      <h2 class="section-title">Everything You Need,<br>In One Place</h2>
+      <p class="section-desc">A comprehensive digital health platform designed specifically for the people of Kerala.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">🔐</div><div class="feature-title">Secure &amp; Private</div><div class="feature-desc">End-to-end encrypted records protected by government-grade security protocols and ISO 27001 certified infrastructure.</div></div>
+      <div class="feature-card"><div class="feature-icon">📱</div><div class="feature-title">Always Accessible</div><div class="feature-desc">Access your complete health history anytime, anywhere across all devices — phone, tablet, or computer.</div></div>
+      <div class="feature-card"><div class="feature-icon">🔲</div><div class="feature-title">QR Health ID</div><div class="feature-desc">Instant QR-code based identification at any partner hospital or clinic across Kerala.</div></div>
+      <div class="feature-card"><div class="feature-icon">🌐</div><div class="feature-title">Multi-language</div><div class="feature-desc">Full support for English, Malayalam, and Hindi to serve all residents of Kerala.</div></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section hiw">
+    <div class="section-header">
+      <div class="section-tag">How It Works</div>
+      <h2 class="section-title">Simple. Fast. Secure.</h2>
+    </div>
+    <div class="hiw-grid">
+      <div class="hiw-item"><div class="hiw-icon">📋</div><div class="hiw-step">STEP 01</div><h3 class="hiw-title">Register</h3><p class="hiw-desc">Sign up with your mobile number and verify with OTP. Takes less than 2 minutes to complete.</p></div>
+      <div class="hiw-item"><div class="hiw-icon">🆔</div><div class="hiw-step">STEP 02</div><h3 class="hiw-title">Get Health ID</h3><p class="hiw-desc">Receive your unique Kerala Health ID with a QR code instantly upon successful registration.</p></div>
+      <div class="hiw-item"><div class="hiw-icon">✅</div><div class="hiw-step">STEP 03</div><h3 class="hiw-title">Access Everywhere</h3><p class="hiw-desc">Show your QR at any partner hospital for instant access to your complete health records.</p></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-section">
+    <div class="cta-inner">
+      <h2 class="cta-title">Join Millions of Keralites</h2>
+      <p class="cta-sub">Register today and take control of your health journey.</p>
+      <div class="cta-actions">
+        <button class="btn-hero-primary" onclick="showPage('register')">Register Now →</button>
+        <button class="btn-hero-outline" onclick="showPage('login')">🔑 Login</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>🏥 Health Record Kerala</h3>
+        <p>Secure, portable digital health records for every resident of Kerala. A Government of Kerala initiative.</p>
+        <div class="footer-helpline">📞 Helpline: 1800-599-0019</div>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <button class="footer-link" onclick="showPage('home')">Home</button>
+        <button class="footer-link" onclick="showPage('about')">About</button>
+        <button class="footer-link" onclick="showPage('contact')">Contact</button>
+        <button class="footer-link" onclick="showPage('faq')">FAQ</button>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <span class="footer-link">Health Records</span>
+        <span class="footer-link">QR Health ID</span>
+        <span class="footer-link">Hospital Finder</span>
+        <span class="footer-link">Appointments</span>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <button class="footer-link" onclick="showPage('privacy')">Privacy Policy</button>
+        <span class="footer-link">Terms of Service</span>
+        <span class="footer-link">Data Policy</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Health Record Kerala. A Government of Kerala Initiative.</span>
+      <div style="display:flex;gap:16px">
+        <span>🔒 SSL Secured</span>
+        <span>🏛️ Govt. of Kerala</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ============================= REGISTER PAGE ============================= -->
+<div class="page" id="page-register">
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-card-header">
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:20px;cursor:pointer" onclick="showPage('home')">
+          <div style="width:32px;height:32px;background:linear-gradient(135deg,#00ACC1,#0097A7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px">🏥</div>
+          <span style="color:#fff;font-weight:700;font-size:14px">Health Record Kerala</span>
+        </div>
+        <h2>Register</h2>
+        <p>Create your digital health profile</p>
+      </div>
+      <div class="auth-card-body">
+        <div id="reg-alert"></div>
+        <div id="reg-step-1">
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            <input class="form-input" id="reg-name" placeholder="John Mathew" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mobile Number *</label>
+            <div class="otp-row">
+              <input class="form-input" id="reg-mobile" placeholder="+91 XXXXX XXXXX" maxlength="10" />
+              <button class="otp-btn" id="btn-send-otp" onclick="sendOTP()">Send OTP</button>
+            </div>
+          </div>
+          <div class="form-group" id="otp-group" style="display:none">
+            <label class="form-label">Enter OTP *</label>
+            <div class="otp-row">
+              <input class="form-input" id="reg-otp" placeholder="6-digit OTP" maxlength="6" />
+              <button class="otp-btn" id="btn-verify-otp" onclick="verifyOTP()">Verify OTP</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password *</label>
+            <input class="form-input" type="password" id="reg-pass" placeholder="Min 8 characters" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email (Optional)</label>
+            <input class="form-input" type="email" id="reg-email" placeholder="you@example.com" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Date of Birth *</label>
+              <input class="form-input" type="date" id="reg-dob" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Blood Group *</label>
+              <select class="form-select" id="reg-blood">
+                <option value="">Select</option>
+                <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+                <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">District *</label>
+            <select class="form-select" id="reg-district">
+              <option value="">Select District</option>
+              <option>Thiruvananthapuram</option><option>Kollam</option><option>Pathanamthitta</option>
+              <option>Alappuzha</option><option>Kottayam</option><option>Idukki</option>
+              <option>Ernakulam</option><option>Thrissur</option><option>Palakkad</option>
+              <option>Malappuram</option><option>Kozhikode</option><option>Wayanad</option>
+              <option>Kannur</option><option>Kasaragod</option>
+            </select>
+          </div>
+          <div class="checkbox-row">
+            <input type="checkbox" id="reg-terms" />
+            <label for="reg-terms">I accept the <strong>Terms &amp; Conditions</strong> and <strong>Privacy Policy</strong></label>
+          </div>
+          <button class="btn-primary" onclick="doRegister()">
+            <span id="reg-btn-text">Create Account</span>
+          </button>
+          <div class="auth-switch">
+            <span>Already have an account? <button onclick="showPage('login')">Login</button></span>
+            <button class="auth-back" onclick="showPage('home')">← Back</button>
+          </div>
+        </div>
+        <div id="reg-step-2" style="display:none">
+          <div class="success-card">
+            <div class="big-icon">🎉</div>
+            <h2 style="font-size:22px;font-weight:800;color:var(--navy);margin-bottom:6px">Registration Successful!</h2>
+            <p style="color:var(--g600);font-size:13px;margin-bottom:20px">Your Kerala Health ID has been generated.</p>
+            <div class="hid-display">
+              <div class="hid-display-label">YOUR HEALTH ID</div>
+              <div class="hid-display-value" id="new-hid">KL25XXXXXX</div>
+              <div class="qr-center"><div class="qr-box" id="new-hid-qr"></div></div>
+            </div>
+            <p style="color:var(--g600);font-size:12px;margin-bottom:20px">📌 Save this ID. You'll need it at hospitals.</p>
+            <button class="btn-primary" onclick="showPage('dashboard')">Go to Dashboard →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= LOGIN PAGE ============================= -->
+<div class="page" id="page-login">
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-card-header">
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:20px;cursor:pointer" onclick="showPage('home')">
+          <div style="width:32px;height:32px;background:linear-gradient(135deg,#00ACC1,#0097A7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px">🏥</div>
+          <span style="color:#fff;font-weight:700;font-size:14px">Health Record Kerala</span>
+        </div>
+        <h2>Login</h2>
+        <p>Access your digital health records</p>
+      </div>
+      <div class="auth-card-body">
+        <div id="login-alert"></div>
+        <div class="form-group">
+          <label class="form-label">Mobile / Email *</label>
+          <input class="form-input" id="login-id" placeholder="+91 XXXXX XXXXX or email" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password *</label>
+          <input class="form-input" type="password" id="login-pass" placeholder="Your password" onkeydown="if(event.key==='Enter')doLogin()" />
+        </div>
+        <button class="btn-primary" onclick="doLogin()">
+          <span id="login-btn-text">Sign In</span>
+        </button>
+        <div class="auth-switch">
+          <span>Don't have an account? <button onclick="showPage('register')">Register</button></span>
+          <button class="auth-back">Forgot Password?</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= DASHBOARD PAGE ============================= -->
+<div class="page" id="page-dashboard">
+  <div class="dashboard-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="dash-avatar">A</div>
+        <div>
+          <div class="sidebar-name" id="dash-name">User</div>
+          <div class="sidebar-hid" id="dash-hid">KL25XXXXXX</div>
+        </div>
+      </div>
+      <div class="sidebar-menu">
+        <button class="sidebar-item active" onclick="showTab('overview')">🏠 Overview</button>
+        <button class="sidebar-item" onclick="showTab('records')">📋 Medical History</button>
+        <button class="sidebar-item" onclick="showTab('vitals')">💓 Vitals</button>
+        <button class="sidebar-item" onclick="showTab('appointments')">📅 Appointments</button>
+        <button class="sidebar-item" onclick="showTab('documents')">📁 Documents</button>
+        <button class="sidebar-item" onclick="showTab('emergency')">🚨 Emergency Contacts</button>
+        <button class="sidebar-item" onclick="showTab('profile')">👤 Profile Settings</button>
+        <button class="sidebar-item danger" style="margin-top:8px" onclick="logout()">🚪 Logout</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="dash-content">
+
+      <!-- OVERVIEW TAB -->
+      <div class="tab-content" id="tab-overview">
+        <div class="dash-greeting">
+          <h1>Welcome, <span id="dash-firstname">User</span>! 👋</h1>
+          <p>Here's your health summary for today.</p>
+        </div>
+        <div class="cards-top">
+          <div class="hid-card">
+            <div class="hid-label">Your Health ID</div>
+            <div class="hid-number" id="overview-hid">KL25XXXXXX</div>
+            <div class="hid-name" id="overview-name">User</div>
+            <div class="hid-meta" id="overview-meta">District • Blood Group</div>
+            <div class="hid-qr" id="overview-qr"></div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-card-icon" style="background:#EEF6FF">📋</div>
+            <div class="mini-card-value" id="rec-count">4</div>
+            <div class="mini-card-label">Health Records</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-card-icon" style="background:#FFF4EE">📅</div>
+            <div class="mini-card-value">2</div>
+            <div class="mini-card-label">Upcoming Appointments</div>
+          </div>
+        </div>
+        <div class="dash-section">
+          <div class="dash-section-head">
+            <h2>Recent Records</h2>
+            <button class="btn-sm" onclick="showTab('records')">View All</button>
+          </div>
+          <div class="record-list" id="overview-records"></div>
+        </div>
+        <div class="dash-section">
+          <div class="dash-section-head">
+            <h2>Latest Vitals</h2>
+            <button class="btn-sm" onclick="showTab('vitals')">View All</button>
+          </div>
+          <div class="vitals-grid">
+            <div class="vital-card"><div class="vital-emoji">❤️</div><div class="vital-value">72</div><div class="vital-unit">bpm</div><div class="vital-label">Heart Rate</div></div>
+            <div class="vital-card"><div class="vital-emoji">🩸</div><div class="vital-value">120/80</div><div class="vital-unit">mmHg</div><div class="vital-label">Blood Pressure</div></div>
+            <div class="vital-card"><div class="vital-emoji">🌡️</div><div class="vital-value">98.6</div><div class="vital-unit">°F</div><div class="vital-label">Temperature</div></div>
+            <div class="vital-card"><div class="vital-emoji">⚖️</div><div class="vital-value">68</div><div class="vital-unit">kg</div><div class="vital-label">Weight</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECORDS TAB -->
+      <div class="tab-content" id="tab-records" style="display:none">
+        <div class="dash-section-head" style="margin-bottom:20px">
+          <h2 style="font-size:22px;font-weight:900;color:var(--navy)">Medical History</h2>
+          <button class="btn-sm" onclick="openAddRecord()">+ Add Record</button>
+        </div>
+        <div style="display:flex;gap:9px;margin-bottom:18px;flex-wrap:wrap">
+          <input class="form-input" style="max-width:280px" placeholder="Search records..." oninput="filterRecords(this.value)" />
+          <button class="btn-sm" onclick="filterByType('')">All</button>
+          <button class="btn-sm" onclick="filterByType('Lab Report')">Lab</button>
+          <button class="btn-sm" onclick="filterByType('Prescription')">Prescription</button>
+          <button class="btn-sm" onclick="filterByType('Radiology')">Radiology</button>
+        </div>
+        <div class="record-list" id="records-list"></div>
+      </div>
+
+      <!-- VITALS TAB -->
+      <div class="tab-content" id="tab-vitals" style="display:none">
+        <div class="dash-section-head" style="margin-bottom:20px">
+          <h2 style="font-size:22px;font-weight:900;color:var(--navy)">Vitals Tracker</h2>
+          <button class="btn-sm" onclick="openLogVitals()">+ Log Vitals</button>
+        </div>
+        <div class="vitals-grid" style="margin-bottom:24px">
+          <div class="vital-card"><div class="vital-emoji">❤️</div><div class="vital-value">72</div><div class="vital-unit">bpm</div><div class="vital-label">Heart Rate</div><div class="vital-trend">↑ Normal</div></div>
+          <div class="vital-card"><div class="vital-emoji">🩸</div><div class="vital-value">120/80</div><div class="vital-unit">mmHg</div><div class="vital-label">Blood Pressure</div><div class="vital-trend">✓ Normal</div></div>
+          <div class="vital-card"><div class="vital-emoji">🌡️</div><div class="vital-value">98.6</div><div class="vital-unit">°F</div><div class="vital-label">Temperature</div><div class="vital-trend">✓ Normal</div></div>
+          <div class="vital-card"><div class="vital-emoji">⚖️</div><div class="vital-value">68</div><div class="vital-unit">kg</div><div class="vital-label">Weight</div><div class="vital-trend">↓ -0.5kg</div></div>
+          <div class="vital-card"><div class="vital-emoji">📏</div><div class="vital-value">172</div><div class="vital-unit">cm</div><div class="vital-label">Height</div><div class="vital-trend">Stable</div></div>
+          <div class="vital-card"><div class="vital-emoji">🩺</div><div class="vital-value">98</div><div class="vital-unit">%</div><div class="vital-label">SpO2</div><div class="vital-trend">✓ Normal</div></div>
+          <div class="vital-card"><div class="vital-emoji">🍬</div><div class="vital-value">95</div><div class="vital-unit">mg/dL</div><div class="vital-label">Blood Sugar</div><div class="vital-trend">✓ Normal</div></div>
+          <div class="vital-card"><div class="vital-emoji">🫀</div><div class="vital-value">22.97</div><div class="vital-unit">BMI</div><div class="vital-label">BMI</div><div class="vital-trend">✓ Normal</div></div>
+        </div>
+      </div>
+
+      <!-- APPOINTMENTS TAB -->
+      <div class="tab-content" id="tab-appointments" style="display:none">
+        <div class="dash-section-head" style="margin-bottom:20px">
+          <h2 style="font-size:22px;font-weight:900;color:var(--navy)">Appointments</h2>
+          <button class="btn-sm" onclick="openBookAppt()">+ Book Appointment</button>
+        </div>
+        <div class="record-list">
+          <div class="record-item"><div class="record-icon" style="background:#EEF6FF">👨‍⚕️</div><div class="record-info"><div class="record-title">Dr. Priya Nair</div><div class="record-meta">Cardiologist • KIMS Hospital, TVM</div><div class="record-meta">15 Jan 2025 at 10:30 AM</div></div><div class="record-badge">Upcoming</div></div>
+          <div class="record-item"><div class="record-icon" style="background:#EEF6FF">👩‍⚕️</div><div class="record-info"><div class="record-title">Dr. Rajesh Kumar</div><div class="record-meta">Endocrinologist • Govt. Medical College</div><div class="record-meta">22 Jan 2025 at 2:00 PM</div></div><div class="record-badge">Upcoming</div></div>
+        </div>
+        <div style="margin-top:24px;background:#fff;border:1px solid var(--g100);border-radius:var(--radius);padding:28px;text-align:center">
+          <div style="font-size:38px;margin-bottom:10px">🏥</div>
+          <h3 style="font-size:17px;font-weight:700;color:var(--navy);margin-bottom:8px">Find Partner Hospitals</h3>
+          <p style="color:var(--g600);font-size:13px;margin-bottom:16px">Book appointments at 500+ partner hospitals across Kerala.</p>
+          <button class="btn-sm" style="background:var(--navy);color:#fff;padding:10px 24px;font-size:13px">Find Nearby Hospitals</button>
+        </div>
+      </div>
+
+      <!-- DOCUMENTS TAB -->
+      <div class="tab-content" id="tab-documents" style="display:none">
+        <div class="dash-section-head" style="margin-bottom:20px">
+          <h2 style="font-size:22px;font-weight:900;color:var(--navy)">Documents</h2>
+        </div>
+        <div class="upload-area" onclick="document.getElementById('file-upload').click()">
+          <input type="file" id="file-upload" style="display:none" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileUpload(this)" multiple />
+          <div style="font-size:38px;margin-bottom:10px">☁️</div>
+          <div style="font-weight:600;font-size:15px;color:var(--navy);margin-bottom:6px">Upload Medical Documents</div>
+          <div style="font-size:13px;color:var(--g400)">PDF, JPG, PNG up to 10MB each</div>
+          <button class="btn-sm" style="margin-top:14px;pointer-events:none">Choose Files</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px" id="docs-grid">
+          <div style="background:#fff;border:1px solid var(--g100);border-radius:10px;padding:18px;text-align:center;cursor:pointer"><div style="font-size:28px;margin-bottom:9px">📄</div><div style="font-weight:600;font-size:13px;color:var(--navy)">Vaccination Card</div><div style="font-size:11px;color:var(--g400);margin-top:3px">2024-10-12</div></div>
+          <div style="background:#fff;border:1px solid var(--g100);border-radius:10px;padding:18px;text-align:center;cursor:pointer"><div style="font-size:28px;margin-bottom:9px">📋</div><div style="font-weight:600;font-size:13px;color:var(--navy)">Insurance Policy</div><div style="font-size:11px;color:var(--g400);margin-top:3px">2024-10-15</div></div>
+          <div style="background:#fff;border:1px solid var(--g100);border-radius:10px;padding:18px;text-align:center;cursor:pointer"><div style="font-size:28px;margin-bottom:9px">🏥</div><div style="font-weight:600;font-size:13px;color:var(--navy)">Discharge Summary</div><div style="font-size:11px;color:var(--g400);margin-top:3px">2024-09-20</div></div>
+        </div>
+      </div>
+
+      <!-- EMERGENCY TAB -->
+      <div class="tab-content" id="tab-emergency" style="display:none">
+        <div class="dash-section-head" style="margin-bottom:20px">
+          <h2 style="font-size:22px;font-weight:900;color:var(--navy)">Emergency Contacts</h2>
+          <button class="btn-sm" onclick="openAddContact()">+ Add Contact</button>
+        </div>
+        <div class="record-list" id="contacts-list">
+          <div class="record-item"><div class="record-icon" style="background:#FFF0F0">👤</div><div class="record-info"><div class="record-title">Meena Kumar</div><div class="record-meta">Spouse • +91 98765 43210</div></div><button class="btn-sm">📞 Call</button></div>
+          <div class="record-item"><div class="record-icon" style="background:#FFF0F0">👤</div><div class="record-info"><div class="record-title">Rajan Kumar</div><div class="record-meta">Brother • +91 91234 56789</div></div><button class="btn-sm">📞 Call</button></div>
+        </div>
+        <div style="margin-top:20px;background:#FFF0F0;border:1px solid rgba(255,107,107,0.2);border-radius:14px;padding:18px">
+          <div style="font-weight:700;color:#C0392B;margin-bottom:10px">🚨 Emergency Services Kerala</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <div style="background:#fff;border-radius:9px;padding:9px 14px;font-size:12px;font-weight:600;color:var(--navy)">Ambulance: <span style="color:#FF6B6B">108</span></div>
+            <div style="background:#fff;border-radius:9px;padding:9px 14px;font-size:12px;font-weight:600;color:var(--navy)">Police: <span style="color:#FF6B6B">100</span></div>
+            <div style="background:#fff;border-radius:9px;padding:9px 14px;font-size:12px;font-weight:600;color:var(--navy)">Fire: <span style="color:#FF6B6B">101</span></div>
+            <div style="background:#fff;border-radius:9px;padding:9px 14px;font-size:12px;font-weight:600;color:var(--navy)">DMER: <span style="color:#FF6B6B">0471-2551979</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFILE TAB -->
+      <div class="tab-content" id="tab-profile" style="display:none">
+        <div class="dash-section-head" style="margin-bottom:20px">
+          <h2 style="font-size:22px;font-weight:900;color:var(--navy)">Profile Settings</h2>
+        </div>
+        <div style="background:#fff;border:1px solid var(--g100);border-radius:var(--radius);padding:28px">
+          <div style="display:flex;align-items:center;gap:18px;margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--g100)">
+            <div id="profile-avatar" style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#00ACC1,#0097A7);display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;font-weight:700">A</div>
+            <div>
+              <div id="profile-name" style="font-weight:800;font-size:18px;color:var(--navy)">User Name</div>
+              <div id="profile-hid" style="color:var(--teal);font-family:monospace;font-weight:600;font-size:13px;margin-top:2px">KL25XXXXXX</div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="p-name"/></div>
+            <div class="form-group"><label class="form-label">Mobile</label><input class="form-input" id="p-mobile"/></div>
+            <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="p-email"/></div>
+            <div class="form-group"><label class="form-label">Date of Birth</label><input class="form-input" type="date" id="p-dob"/></div>
+            <div class="form-group"><label class="form-label">District</label><input class="form-input" id="p-district"/></div>
+            <div class="form-group"><label class="form-label">Blood Group</label><input class="form-input" id="p-blood"/></div>
+          </div>
+          <button class="btn-save" onclick="saveProfile()">Save Changes</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ============================= ABOUT PAGE ============================= -->
+<div class="page" id="page-about">
+  <div class="content-hero"><h1>About Health Record Kerala</h1><p>Building Kerala's digital health infrastructure for a healthier tomorrow.</p></div>
+  <div class="content-body">
+    <div class="content-section"><h2>Our Mission</h2><p>Health Record Kerala is a flagship e-governance initiative by the Government of Kerala aimed at creating a centralized, secure, and accessible digital health record system for all 3.5 crore residents of the state.</p><p>We envision a Kerala where every citizen has instant access to their complete medical history, eliminating redundant tests, reducing healthcare costs, and enabling better-informed medical decisions.</p></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:40px">
+      <div style="background:var(--navy);border-radius:14px;padding:28px;text-align:center;color:#fff"><div style="font-size:34px;font-weight:900;color:var(--teal)">2022</div><div style="font-weight:700;margin-top:7px">Founded</div><div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:3px">Kerala Govt. Initiative</div></div>
+      <div style="background:var(--navy);border-radius:14px;padding:28px;text-align:center;color:#fff"><div style="font-size:34px;font-weight:900;color:var(--teal)">500+</div><div style="font-weight:700;margin-top:7px">Partner Hospitals</div><div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:3px">Across all 14 districts</div></div>
+      <div style="background:var(--navy);border-radius:14px;padding:28px;text-align:center;color:#fff"><div style="font-size:34px;font-weight:900;color:var(--teal)">35M+</div><div style="font-weight:700;margin-top:7px">Citizens Served</div><div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:3px">Registered users</div></div>
+    </div>
+    <div class="content-section"><h2>Technology &amp; Security</h2><p>Our platform is built on enterprise-grade infrastructure with AES-256 encryption, multi-factor authentication, and ISO 27001 certified data centers located within India.</p><p>All data is stored in compliance with India's Digital Personal Data Protection Act 2023, ensuring complete regulatory compliance and citizen data sovereignty.</p></div>
+  </div>
+</div>
+
+<!-- ============================= FAQ PAGE ============================= -->
+<div class="page" id="page-faq">
+  <div class="content-hero"><h1>Frequently Asked Questions</h1><p>Everything you need to know about Health Record Kerala.</p></div>
+  <div class="content-body">
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What is Health Record Kerala? <span>▼</span></button><div class="faq-a">Health Record Kerala is a Government of Kerala initiative to provide every resident with a portable digital health ID and secure cloud-based storage for all medical records.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Is my health data secure? <span>▼</span></button><div class="faq-a">Yes. All data is encrypted using AES-256 encryption, stored in ISO 27001 certified servers in India, and protected under India's data protection laws. Only you can authorize access.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How do I register? <span>▼</span></button><div class="faq-a">Visit the registration page, fill in your basic details, verify your mobile number with OTP, and your unique Health ID will be generated instantly.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What documents can I upload? <span>▼</span></button><div class="faq-a">You can upload prescriptions, lab reports, X-rays, discharge summaries, vaccination records, and insurance documents in PDF, JPG, or PNG format.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Can hospitals access my records? <span>▼</span></button><div class="faq-a">Only partner hospitals you authorize via your QR code and explicit consent can access your records. You remain in full control at all times.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Is the service free? <span>▼</span></button><div class="faq-a">Yes, Health Record Kerala is completely free for all Kerala residents. This is a public service funded by the Government of Kerala.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What if I forget my password? <span>▼</span></button><div class="faq-a">Use the 'Forgot Password' option on the login page. An OTP will be sent to your registered mobile number to reset your password.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Can I use this outside Kerala? <span>▼</span></button><div class="faq-a">Yes, your Health ID and records are accessible from anywhere in India and the world with internet access.</div></div>
+  </div>
+</div>
+
+<!-- ============================= CONTACT PAGE ============================= -->
+<div class="page" id="page-contact">
+  <div class="content-hero"><h1>Contact Us</h1><p>We're here to help. Reach out to us anytime.</p></div>
+  <div class="content-body">
+    <div class="contact-grid">
+      <div class="contact-info-card">
+        <h2>Contact Information</h2>
+        <div class="contact-info-item"><div class="contact-info-icon">📞</div><div class="contact-info-text"><h4>Toll-Free Helpline</h4><p>1800-599-0019</p></div></div>
+        <div class="contact-info-item"><div class="contact-info-icon">📧</div><div class="contact-info-text"><h4>Email</h4><p>support@healthrecord.kerala.gov.in</p></div></div>
+        <div class="contact-info-item"><div class="contact-info-icon">🏛️</div><div class="contact-info-text"><h4>Head Office</h4><p>Technopark, Thiruvananthapuram, Kerala 695581</p></div></div>
+        <div class="contact-info-item"><div class="contact-info-icon">⏰</div><div class="contact-info-text"><h4>Working Hours</h4><p>Mon–Sat: 9 AM – 6 PM</p></div></div>
+      </div>
+      <div class="contact-form-card">
+        <h2>Send a Message</h2>
+        <div id="contact-alert"></div>
+        <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="c-name" placeholder="Your name"/></div>
+        <div class="form-group"><label class="form-label">Mobile / Email</label><input class="form-input" id="c-contact" placeholder="+91 XXXXX XXXXX"/></div>
+        <div class="form-group"><label class="form-label">Subject</label><select class="form-select" id="c-subject"><option>Registration Help</option><option>Technical Issue</option><option>Record Access</option><option>Other</option></select></div>
+        <div class="form-group"><label class="form-label">Message</label><textarea class="form-input" id="c-msg" rows="4" placeholder="Describe your issue..."></textarea></div>
+        <button class="btn-primary" onclick="sendMessage()">Send Message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= PRIVACY PAGE ============================= -->
+<div class="page" id="page-privacy">
+  <div class="content-hero"><h1>Privacy Policy</h1><p>Last updated: January 1, 2025</p></div>
+  <div class="content-body">
+    <div class="content-section"><h2>1. Information We Collect</h2><p>We collect personal information you provide during registration, including name, mobile number, date of birth, district, and blood group. We also collect health records you upload. No data is collected without your explicit consent.</p></div>
+    <div class="content-section"><h2>2. How We Use Your Information</h2><p>Your data is used solely to provide the Health Record Kerala service — to generate your unique Health ID, store records securely, and enable authorized healthcare providers to access them when you consent via QR code. We never sell your data.</p></div>
+    <div class="content-section"><h2>3. Data Security</h2><p>All personal and health data is encrypted using AES-256 encryption at rest and TLS 1.3 in transit. Our servers are in India and comply with ISO 27001 security standards. We conduct regular security audits.</p></div>
+    <div class="content-section"><h2>4. Your Rights</h2><p>Under India's DPDP Act 2023, you may access, correct, or delete your personal data at any time via your dashboard or by contacting us. We respond to all requests within 30 days.</p></div>
+    <div class="content-section"><h2>5. Data Retention</h2><p>Records are retained while your account is active. Upon deletion, all data is removed within 90 days unless legally required to retain.</p></div>
+    <div class="content-section"><h2>6. Contact</h2><p>Privacy queries: dpo@healthrecord.kerala.gov.in or call 1800-599-0019.</p></div>
+  </div>
+</div>
+
+<!-- ============================= JAVASCRIPT ============================= -->
+<script>
+// ─── CONFIG ─────────────────────────────────────────────────────────────────
+const API = 'http://localhost:5000/api';
+
+// ─── STATE ──────────────────────────────────────────────────────────────────
+let currentUser = JSON.parse(localStorage.getItem('hrk_user') || 'null');
+let otpVerified = false;
+let healthRecords = [
+  {id:1, title:"Blood Test Report",    type:"Lab Report",   date:"2024-12-10", hospital:"KIMS Hospital, TVM",         icon:"🧪", color:"#EEF6FF"},
+  {id:2, title:"Chest X-Ray",          type:"Radiology",    date:"2024-11-22", hospital:"Medical College, EKM",       icon:"🫁", color:"#FFF4EE"},
+  {id:3, title:"Prescription – Diabetes", type:"Prescription", date:"2024-10-05", hospital:"Govt. General Hospital", icon:"💊", color:"#F0FFF4"},
+  {id:4, title:"Echocardiogram",       type:"Cardiology",   date:"2024-09-14", hospital:"Amrita Hospital, Kochi",    icon:"❤️", color:"#FFF0F0"},
+];
+let filterType = '';
+
+// ─── QR CODE GENERATOR ──────────────────────────────────────────────────────
+function makeQR(data, size = 100) {
+  let hash = 0;
+  for (let i = 0; i < data.length; i++) { hash = ((hash << 5) - hash) + data.charCodeAt(i); hash |= 0; }
+  const sz = 21, cs = size / sz;
+  let svg = `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg"><rect width="${size}" height="${size}" fill="white"/>`;
+  for (let r = 0; r < sz; r++) {
+    for (let c = 0; c < sz; c++) {
+      const inF = (r<7&&c<7)||(r<7&&c>=14)||(r>=14&&c<7);
+      let fill = false;
+      if (inF) { const br=r%7,bc=c%7; fill=(br===0||br===6||bc===0||bc===6||(br>=2&&br<=4&&bc>=2&&bc<=4)); }
+      else fill = (((hash>>((r*sz+c)%32))&1)^((r+c)%3===0?1:0)) === 1;
+      if (fill) svg += `<rect x="${c*cs}" y="${r*cs}" width="${cs}" height="${cs}" fill="#1A2B4C"/>`;
+    }
+  }
+  return svg + '</svg>';
+}
+
+function setQR(elId, value, size=80) {
+  const el = document.getElementById(elId);
+  if (el) el.innerHTML = makeQR(value, size);
+}
+
+// ─── PAGES ──────────────────────────────────────────────────────────────────
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  const pg = document.getElementById('page-' + name);
+  if (pg) pg.classList.add('active');
+  const nl = document.querySelector(`.nav-link[onclick*="'${name}'"]`);
+  if (nl) nl.classList.add('active');
+  window.scrollTo(0, 0);
+
+  if (name === 'dashboard') {
+    if (!currentUser) { showPage('login'); return; }
+    populateDashboard();
+  }
+  updateNav();
+}
+
+function updateNav() {
+  const gu = document.getElementById('nav-guest');
+  const nu = document.getElementById('nav-user');
+  if (currentUser) { gu.style.display = 'none'; nu.style.display = 'flex'; }
+  else { gu.style.display = 'flex'; nu.style.display = 'none'; }
+}
+
+// ─── TOAST ──────────────────────────────────────────────────────────────────
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = (type === 'success' ? '✅ ' : '❌ ') + msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ─── MODAL ──────────────────────────────────────────────────────────────────
+function openModal(title, bodyHTML, footerHTML = '') {
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-body').innerHTML = bodyHTML;
+  document.getElementById('modal-footer').innerHTML = footerHTML;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+
+// ─── OTP ────────────────────────────────────────────────────────────────────
+async function sendOTP() {
+  const mobile = document.getElementById('reg-mobile').value.trim();
+  if (mobile.length < 10) { showAlert('reg-alert', 'Enter a valid 10-digit mobile number.', 'error'); return; }
+  const btn = document.getElementById('btn-send-otp');
+  btn.disabled = true; btn.textContent = 'Sending...';
+  try {
+    // Call backend
+    const res = await fetch(`${API}/auth/send-otp`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({mobile}) });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('otp-group').style.display = 'block';
+      btn.textContent = 'Sent ✓';
+      showAlert('reg-alert', 'OTP sent to ' + mobile + '. (Demo OTP: 123456)', 'success');
+    } else { showAlert('reg-alert', data.message || 'Failed to send OTP.', 'error'); btn.disabled = false; btn.textContent = 'Send OTP'; }
+  } catch {
+    // Offline demo mode
+    document.getElementById('otp-group').style.display = 'block';
+    btn.textContent = 'Sent ✓';
+    showAlert('reg-alert', '📱 OTP sent! (Demo mode: use 123456)', 'success');
+  }
+}
+
+async function verifyOTP() {
+  const otp = document.getElementById('reg-otp').value.trim();
+  const mobile = document.getElementById('reg-mobile').value.trim();
+  if (otp.length < 4) { showAlert('reg-alert', 'Enter the OTP sent to your mobile.', 'error'); return; }
+  const btn = document.getElementById('btn-verify-otp');
+  btn.disabled = true; btn.textContent = 'Verifying...';
+  try {
+    const res = await fetch(`${API}/auth/verify-otp`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({mobile, otp}) });
+    const data = await res.json();
+    if (data.success) { otpVerified = true; btn.textContent = 'Verified ✓'; showAlert('reg-alert', '✓ Mobile number verified!', 'success'); }
+    else { showAlert('reg-alert', 'Invalid OTP. Try again.', 'error'); btn.disabled = false; btn.textContent = 'Verify OTP'; }
+  } catch {
+    // Demo: accept 123456
+    if (otp === '123456' || otp.length >= 4) {
+      otpVerified = true; btn.textContent = 'Verified ✓';
+      showAlert('reg-alert', '✓ Mobile verified! (Demo mode)', 'success');
+    } else { showAlert('reg-alert', 'Invalid OTP.', 'error'); btn.disabled = false; btn.textContent = 'Verify OTP'; }
+  }
+}
+
+// ─── REGISTER ───────────────────────────────────────────────────────────────
+async function doRegister() {
+  const name     = document.getElementById('reg-name').value.trim();
+  const mobile   = document.getElementById('reg-mobile').value.trim();
+  const pass     = document.getElementById('reg-pass').value;
+  const email    = document.getElementById('reg-email').value.trim();
+  const dob      = document.getElementById('reg-dob').value;
+  const blood    = document.getElementById('reg-blood').value;
+  const district = document.getElementById('reg-district').value;
+  const terms    = document.getElementById('reg-terms').checked;
+
+  if (!name || !mobile || !pass || !dob || !blood || !district) { showAlert('reg-alert','Please fill all required fields.','error'); return; }
+  if (!terms) { showAlert('reg-alert','Please accept the Terms & Conditions.','error'); return; }
+  if (!otpVerified) { showAlert('reg-alert','Please verify your mobile number first.','error'); return; }
+
+  const btn = document.getElementById('reg-btn-text');
+  btn.innerHTML = '<span class="spinner"></span> Creating Account...';
+
+  try {
+    const res = await fetch(`${API}/auth/register`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({name, mobile, password: pass, email, dob, bloodGroup: blood, district})
+    });
+    const data = await res.json();
+    if (data.success) {
+      currentUser = data.user;
+      localStorage.setItem('hrk_user', JSON.stringify(currentUser));
+      showRegSuccess(data.user.healthId);
+    } else { showAlert('reg-alert', data.message || 'Registration failed.', 'error'); btn.textContent = 'Create Account'; }
+  } catch {
+    // Demo mode
+    const hid = 'KL' + new Date().getFullYear().toString().slice(-2) + Math.floor(100000 + Math.random() * 900000);
+    currentUser = { name, mobile, email, dob, bloodGroup: blood, district, healthId: hid, token: 'demo' };
+    localStorage.setItem('hrk_user', JSON.stringify(currentUser));
+    showRegSuccess(hid);
+  }
+}
+
+function showRegSuccess(hid) {
+  document.getElementById('reg-step-1').style.display = 'none';
+  document.getElementById('reg-step-2').style.display = 'block';
+  document.getElementById('new-hid').textContent = hid;
+  setQR('new-hid-qr', hid, 110);
+  updateNav();
+}
+
+// ─── LOGIN ───────────────────────────────────────────────────────────────────
+async function doLogin() {
+  const id   = document.getElementById('login-id').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  if (!id || !pass) { showAlert('login-alert','Please fill all fields.','error'); return; }
+
+  const btn = document.getElementById('login-btn-text');
+  btn.innerHTML = '<span class="spinner"></span> Signing In...';
+
+  try {
+    const res = await fetch(`${API}/auth/login`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({mobile: id, password: pass})
+    });
+    const data = await res.json();
+    if (data.success) {
+      currentUser = data.user;
+      localStorage.setItem('hrk_user', JSON.stringify(currentUser));
+      showToast('Login successful! Welcome back.');
+      updateNav();
+      showPage('dashboard');
+    } else { showAlert('login-alert', data.message || 'Invalid credentials.', 'error'); btn.textContent = 'Sign In'; }
+  } catch {
+    // Demo login
+    currentUser = { name:'Arun Kumar P.', mobile: id, email:'arun@example.com', dob:'1990-03-14', bloodGroup:'O+', district:'Ernakulam', healthId:'KL24847391', token:'demo' };
+    localStorage.setItem('hrk_user', JSON.stringify(currentUser));
+    showToast('Login successful! Welcome back.');
+    updateNav();
+    showPage('dashboard');
+  }
+}
+
+// ─── LOGOUT ─────────────────────────────────────────────────────────────────
+function logout() {
+  currentUser = null; localStorage.removeItem('hrk_user');
+  updateNav(); showPage('home'); showToast('Logged out successfully.');
+}
+
+// ─── DASHBOARD ──────────────────────────────────────────────────────────────
+function populateDashboard() {
+  if (!currentUser) return;
+  const firstName = currentUser.name.split(' ')[0];
+  document.getElementById('dash-avatar').textContent    = firstName[0];
+  document.getElementById('dash-name').textContent      = currentUser.name;
+  document.getElementById('dash-hid').textContent       = currentUser.healthId;
+  document.getElementById('dash-firstname').textContent = firstName;
+  document.getElementById('overview-hid').textContent   = currentUser.healthId;
+  document.getElementById('overview-name').textContent  = currentUser.name;
+  document.getElementById('overview-meta').textContent  = `${currentUser.district} • ${currentUser.bloodGroup} • ${currentUser.dob}`;
+  document.getElementById('profile-avatar').textContent = firstName[0];
+  document.getElementById('profile-name').textContent   = currentUser.name;
+  document.getElementById('profile-hid').textContent    = currentUser.healthId;
+  document.getElementById('p-name').value     = currentUser.name || '';
+  document.getElementById('p-mobile').value   = currentUser.mobile || '';
+  document.getElementById('p-email').value    = currentUser.email || '';
+  document.getElementById('p-dob').value      = currentUser.dob || '';
+  document.getElementById('p-district').value = currentUser.district || '';
+  document.getElementById('p-blood').value    = currentUser.bloodGroup || '';
+  setQR('overview-qr', currentUser.healthId, 72);
+  renderRecords();
+  document.getElementById('rec-count').textContent = healthRecords.length;
+}
+
+// ─── TABS ────────────────────────────────────────────────────────────────────
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  const tab = document.getElementById('tab-' + name);
+  if (tab) tab.style.display = 'block';
+  const items = document.querySelectorAll('.sidebar-item');
+  items.forEach(i => { if (i.getAttribute('onclick') && i.getAttribute('onclick').includes(`'${name}'`)) i.classList.add('active'); });
+}
+
+// ─── RECORDS ─────────────────────────────────────────────────────────────────
+function renderRecords(filter = '') {
+  const list  = document.getElementById('records-list');
+  const oList = document.getElementById('overview-records');
+  if (!list) return;
+  const filtered = healthRecords.filter(r =>
+    (filterType === '' || r.type === filterType) &&
+    (filter === '' || r.title.toLowerCase().includes(filter.toLowerCase()) || r.hospital.toLowerCase().includes(filter.toLowerCase()))
+  );
+  const html = filtered.map(r => `
+    <div class="record-item">
+      <div class="record-icon" style="background:${r.color}">${r.icon}</div>
+      <div class="record-info">
+        <div class="record-title">${r.title}</div>
+        <div class="record-meta">${r.hospital} • ${r.date}</div>
+      </div>
+      <div class="record-badge">${r.type}</div>
+      <button class="btn-sm" onclick="viewRecord(${r.id})">View</button>
+      <button class="btn-sm" style="background:rgba(255,107,107,0.1);color:#FF6B6B" onclick="deleteRecord(${r.id})">Delete</button>
+    </div>`).join('');
+  list.innerHTML = html || '<p style="color:var(--g400);font-size:14px;padding:16px">No records found.</p>';
+  if (oList) oList.innerHTML = healthRecords.slice(0, 3).map(r => `
+    <div class="record-item">
+      <div class="record-icon" style="background:${r.color}">${r.icon}</div>
+      <div class="record-info"><div class="record-title">${r.title}</div><div class="record-meta">${r.hospital} • ${r.date}</div></div>
+      <div class="record-badge">${r.type}</div>
+    </div>`).join('');
+}
+
+function filterRecords(val) { renderRecords(val); }
+function filterByType(type) { filterType = type; renderRecords(); }
+
+function viewRecord(id) {
+  const r = healthRecords.find(x => x.id === id);
+  if (!r) return;
+  openModal(`${r.icon} ${r.title}`, `
+    <div style="display:grid;gap:14px">
+      <div><strong>Type:</strong> ${r.type}</div>
+      <div><strong>Date:</strong> ${r.date}</div>
+      <div><strong>Hospital:</strong> ${r.hospital}</div>
+      <div style="background:var(--g50);border-radius:10px;padding:16px;text-align:center;color:var(--g400)">📄 Document preview would appear here</div>
+    </div>`, `<button class="btn-outline" onclick="closeModal()">Close</button>`);
+}
+
+function deleteRecord(id) {
+  if (!confirm('Delete this record?')) return;
+  healthRecords = healthRecords.filter(r => r.id !== id);
+  document.getElementById('rec-count').textContent = healthRecords.length;
+  renderRecords();
+  showToast('Record deleted.');
+}
+
+function openAddRecord() {
+  openModal('Add Medical Record', `
+    <div id="modal-alert"></div>
+    <div class="form-group"><label class="form-label">Title *</label><input class="form-input" id="m-title" placeholder="e.g. Blood Test Report"/></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Type *</label>
+        <select class="form-select" id="m-type">
+          <option value="">Select</option><option>Lab Report</option><option>Prescription</option><option>Radiology</option><option>Cardiology</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Date *</label><input class="form-input" type="date" id="m-date"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">Hospital / Clinic</label><input class="form-input" id="m-hospital" placeholder="Hospital name"/></div>
+    <div class="form-group"><label class="form-label">Notes</label><textarea class="form-input" id="m-notes" rows="3" placeholder="Additional notes..."></textarea></div>`,
+    `<button class="btn-outline" onclick="closeModal()">Cancel</button>
+     <button class="btn-save" onclick="saveRecord()">Save Record</button>`);
+}
+
+function saveRecord() {
+  const title    = document.getElementById('m-title').value.trim();
+  const type     = document.getElementById('m-type').value;
+  const date     = document.getElementById('m-date').value;
+  const hospital = document.getElementById('m-hospital').value.trim();
+  if (!title || !type || !date) { showAlert('modal-alert','Please fill all required fields.','error'); return; }
+  const icons = {'Lab Report':'🧪','Prescription':'💊','Radiology':'🫁','Cardiology':'❤️','Other':'📄'};
+  const colors= {'Lab Report':'#EEF6FF','Prescription':'#F0FFF4','Radiology':'#FFF4EE','Cardiology':'#FFF0F0','Other':'#F5F7FA'};
+  healthRecords.unshift({ id: Date.now(), title, type, date, hospital: hospital || 'Unknown Hospital', icon: icons[type]||'📄', color: colors[type]||'#F5F7FA' });
+  document.getElementById('rec-count').textContent = healthRecords.length;
+  renderRecords(); closeModal();
+  showToast('Record added successfully!');
+}
+
+function openLogVitals() {
+  openModal('Log Vitals', `
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Heart Rate (bpm)</label><input class="form-input" placeholder="e.g. 72"/></div>
+      <div class="form-group"><label class="form-label">Blood Pressure</label><input class="form-input" placeholder="e.g. 120/80"/></div>
+      <div class="form-group"><label class="form-label">Temperature (°F)</label><input class="form-input" placeholder="e.g. 98.6"/></div>
+      <div class="form-group"><label class="form-label">Weight (kg)</label><input class="form-input" placeholder="e.g. 68"/></div>
+      <div class="form-group"><label class="form-label">SpO2 (%)</label><input class="form-input" placeholder="e.g. 98"/></div>
+      <div class="form-group"><label class="form-label">Blood Sugar (mg/dL)</label><input class="form-input" placeholder="e.g. 95"/></div>
+    </div>`,
+    `<button class="btn-outline" onclick="closeModal()">Cancel</button><button class="btn-save" onclick="closeModal();showToast('Vitals logged!')">Save Vitals</button>`);
+}
+
+function openBookAppt() {
+  openModal('Book Appointment', `
+    <div class="form-group"><label class="form-label">Hospital</label><select class="form-select"><option>KIMS Hospital, Thiruvananthapuram</option><option>Medical College, Ernakulam</option><option>Amrita Hospital, Kochi</option><option>Govt. General Hospital</option></select></div>
+    <div class="form-group"><label class="form-label">Department</label><select class="form-select"><option>General Medicine</option><option>Cardiology</option><option>Orthopedics</option><option>Pediatrics</option><option>Dermatology</option></select></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Date</label><input class="form-input" type="date"/></div>
+      <div class="form-group"><label class="form-label">Time Slot</label><select class="form-select"><option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option><option>2:00 PM</option><option>3:00 PM</option></select></div>
+    </div>`,
+    `<button class="btn-outline" onclick="closeModal()">Cancel</button><button class="btn-save" onclick="closeModal();showToast('Appointment booked!')">Book Now</button>`);
+}
+
+function openAddContact() {
+  openModal('Add Emergency Contact', `
+    <div class="form-group"><label class="form-label">Name *</label><input class="form-input" id="ec-name" placeholder="Contact name"/></div>
+    <div class="form-group"><label class="form-label">Relationship *</label><select class="form-select" id="ec-rel"><option>Spouse</option><option>Parent</option><option>Sibling</option><option>Child</option><option>Friend</option><option>Other</option></select></div>
+    <div class="form-group"><label class="form-label">Phone *</label><input class="form-input" id="ec-phone" placeholder="+91 XXXXX XXXXX"/></div>`,
+    `<button class="btn-outline" onclick="closeModal()">Cancel</button><button class="btn-save" onclick="addContact()">Add Contact</button>`);
+}
+
+function addContact() {
+  const name  = document.getElementById('ec-name').value.trim();
+  const rel   = document.getElementById('ec-rel').value;
+  const phone = document.getElementById('ec-phone').value.trim();
+  if (!name || !phone) { showToast('Fill all fields.','error'); return; }
+  const list = document.getElementById('contacts-list');
+  const div = document.createElement('div');
+  div.className = 'record-item';
+  div.innerHTML = `<div class="record-icon" style="background:#FFF0F0">👤</div><div class="record-info"><div class="record-title">${name}</div><div class="record-meta">${rel} • ${phone}</div></div><button class="btn-sm">📞 Call</button>`;
+  list.appendChild(div);
+  closeModal(); showToast('Contact added!');
+}
+
+function handleFileUpload(input) {
+  const grid = document.getElementById('docs-grid');
+  Array.from(input.files).forEach(file => {
+    const div = document.createElement('div');
+    div.style.cssText = 'background:#fff;border:1px solid var(--g100);border-radius:10px;padding:18px;text-align:center;cursor:pointer';
+    const ext = file.name.split('.').pop().toLowerCase();
+    const icon = ext === 'pdf' ? '📄' : '🖼️';
+    div.innerHTML = `<div style="font-size:28px;margin-bottom:9px">${icon}</div><div style="font-weight:600;font-size:13px;color:var(--navy)">${file.name}</div><div style="font-size:11px;color:var(--g400);margin-top:3px">${new Date().toISOString().slice(0,10)}</div>`;
+    grid.appendChild(div);
+  });
+  showToast(`${input.files.length} file(s) uploaded!`);
+}
+
+function saveProfile() {
+  if (!currentUser) return;
+  currentUser.name      = document.getElementById('p-name').value;
+  currentUser.mobile    = document.getElementById('p-mobile').value;
+  currentUser.email     = document.getElementById('p-email').value;
+  currentUser.dob       = document.getElementById('p-dob').value;
+  currentUser.district  = document.getElementById('p-district').value;
+  currentUser.bloodGroup= document.getElementById('p-blood').value;
+  localStorage.setItem('hrk_user', JSON.stringify(currentUser));
+  populateDashboard();
+  showToast('Profile updated successfully!');
+}
+
+// ─── FAQ ─────────────────────────────────────────────────────────────────────
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const arrow  = btn.querySelector('span');
+  answer.classList.toggle('open');
+  arrow.textContent = answer.classList.contains('open') ? '▲' : '▼';
+}
+
+// ─── CONTACT ─────────────────────────────────────────────────────────────────
+async function sendMessage() {
+  const name    = document.getElementById('c-name').value.trim();
+  const contact = document.getElementById('c-contact').value.trim();
+  const msg     = document.getElementById('c-msg').value.trim();
+  if (!name || !contact || !msg) { showAlert('contact-alert','Please fill all fields.','error'); return; }
+  try {
+    await fetch(`${API}/contact`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name, contact, subject: document.getElementById('c-subject').value, message: msg}) });
+  } catch {}
+  showAlert('contact-alert','✅ Message sent! We\'ll respond within 24 hours.','success');
+  document.getElementById('c-name').value = '';
+  document.getElementById('c-contact').value = '';
+  document.getElementById('c-msg').value = '';
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function showAlert(containerId, msg, type) {
+  const el = document.getElementById(containerId);
+  if (el) { el.innerHTML = `<div class="alert alert-${type}">${msg}</div>`; }
+}
+
+// ─── LANG TOGGLE (stub) ──────────────────────────────────────────────────────
+const LANGS = ['EN','ML','HI'];
+let langIdx = 0;
+function cycleLang() {
+  langIdx = (langIdx + 1) % 3;
+  document.getElementById('lang-btn').textContent = LANGS[langIdx];
+  showToast(`Language: ${LANGS[langIdx]}`);
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  setQR('demo-qr', 'KL24847391', 68);
+  updateNav();
+  if (currentUser) { populateDashboard(); }
+  // Reset register form
+  document.getElementById('reg-step-1').style.display = 'block';
+  document.getElementById('reg-step-2').style.display = 'none';
+  otpVerified = false;
+});
+
+// Close modal on overlay click
+document.getElementById('modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+</body>
+</html>
+
